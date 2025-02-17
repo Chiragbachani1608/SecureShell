@@ -1,13 +1,10 @@
 flask==3.0.2
 gunicorn==21.2.0
-numpy==1.26.4
-opencv-python-headless==4.9.0.80
-pillow==10.2.0
 torch==2.2.1
 torchvision==0.17.1
-ultralytics==8.2.1
-efficientnet-pytorch==0.7.1
-timm==0.9.16
-python-dateutil==2.9.0.
-scipy==1.13.0
+opencv-python-headless==4.9.0.80
 gudhi==3.9.0
+numpy==1.26.4
+scikit-learn==1.4.2
+scipy==1.13.0
+pip install --upgrade pip
