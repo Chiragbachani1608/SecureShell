@@ -1,40 +1,40 @@
 # Core Framework
-flask==2.0.1
-gunicorn==20.1.0
+flask
+gunicorn
 
 # Deep Learning Ecosystem
-torch==1.12.0+cu113
-torchvision==0.13.0+cu113
-torchaudio==0.12.0
+torch
+torchvision
+torchaudio
 #--extra-index-url https://download.pytorch.org/whl/cu113
-ultralytics==8.0.0  # YOLOv8
-efficientnet-pytorch==0.7.1
-timm==0.6.7
+ultralytics  # YOLOv8
+efficientnet-pytorch
+timm
 
 # Image Processing
-opencv-python-headless==4.5.5.64
-Pillow==9.0.1
-imageio==2.16.0
+opencv-python-headless
+Pillow
+imageio
 
 # Mathematical Processing
-numpy==1.22.3
-scipy==1.8.0
-pytop==0.7.0  # Topological Data Analysis
-fractal==2.4.1
+numpy
+scipy
+pytop  # Topological Data Analysis
+fractal
 
 # Database & Security
-psycopg2-binary==2.9.3
-cryptography==36.0.1
-pycryptodome==3.14.1
+psycopg2-binary
+cryptography
+pycryptodome
 
 # Optimization
-onnxruntime-gpu==1.11.1
-tensorrt==8.4.1.5
+onnxruntime-gpu
+tensorrt
 
 # IoT Communication
-paho-mqtt==1.6.1
-requests==2.27.1
+paho-mqtt
+requests
 
 # Advanced Analytics
-persim==0.3.1  # Persistent homology
-gudhi==3.5.0  # Topological ML
+persim  # Persistent homology
+gudhi  # Topological ML
