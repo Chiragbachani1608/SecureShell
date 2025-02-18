@@ -1,5 +1,3 @@
-
-
 from flask import Flask, request, jsonify, send_from_directory
 import os
 import base64
@@ -58,18 +56,20 @@ def authenticate():
     try:
         if 'image' not in request.files:
             return jsonify({"error": "No image provided"}), 400
-            
+
         # Process image
         file = request.files['image'].read()
         img = cv2.imdecode(np.frombuffer(file, np.uint8), cv2.IMREAD_COLOR)
-        
+        if img is None:
+            return jsonify({"error": "Invalid image data"}), 400
+
         # Add your authentication logic here
         return jsonify({
             "status": "authenticated",
             "confidence": 0.9997,
             "user_id": "PAX-1234"
         })
-        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -77,22 +77,24 @@ def authenticate():
 def enroll():
     """User enrollment endpoint"""
     try:
-        required_fields = ['user_id', 'image']
-        if not all(field in request.form for field in required_fields):
-            return jsonify({"error": "Missing required fields"}), 400
+        # Ensure required fields exist: 'user_id' in form and 'image' in files
+        if 'user_id' not in request.form or 'image' not in request.files:
+            return jsonify({"error": "Missing required fields: 'user_id' and/or 'image'"}), 400
 
         # Process enrollment
         user_id = request.form['user_id']
         file = request.files['image'].read()
         img = cv2.imdecode(np.frombuffer(file, np.uint8), cv2.IMREAD_COLOR)
-        
+        if img is None:
+            return jsonify({"error": "Invalid image data"}), 400
+
         # Add your enrollment logic here
         return jsonify({
             "status": "enrolled",
             "user_id": user_id,
             "biometric_hash": "a9f8e7c6d5"
         })
-        
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -103,15 +105,19 @@ def enroll():
 @app.errorhandler(404)
 def page_not_found(e):
     """Custom 404 handler"""
+    endpoints = [str(rule) for rule in app.url_map.iter_rules()]
     return jsonify({
         "error": "Endpoint not found",
-        "valid_endpoints": list(app.url_map.iter_rules())
+        "valid_endpoints": endpoints
     }), 404
 
 if __name__ == '__main__':
     # Create default favicon if missing
     if not os.path.exists('static/favicon.ico'):
         with open('static/favicon.ico', 'wb') as f:
-            f.write(base64.b64decode(b'AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))
-    
-    app.run(host='0.0.0.0', port=5000, debug=False)
+            f.write(base64.b64decode(
+                b'AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            ))
+    # Use the port provided by Render or default to 5000
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
